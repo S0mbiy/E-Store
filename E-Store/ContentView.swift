@@ -9,7 +9,11 @@ import SwiftUI
 
 struct ContentView: View {
     var body: some View {
-        Catalog(catalog: CatalogViewModel())
+        NavigationView{
+            Catalog()
+                .navigationBarHidden(true)
+                .navigationBarBackButtonHidden(true)
+        }
     }
 }
 

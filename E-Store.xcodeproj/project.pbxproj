@@ -17,6 +17,8 @@
 		2355EB5626533E0E0003A323 /* SearchBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2355EB5526533E0E0003A323 /* SearchBar.swift */; };
 		2355EB702653603C0003A323 /* ViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2355EB6F2653603C0003A323 /* ViewModel.swift */; };
 		238E654626544D4000523C14 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238E654526544D3F00523C14 /* AsyncImage.swift */; };
+		23B96FAE26597C5600783CB5 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B96FAD26597C5600783CB5 /* GoogleSignInButton.swift */; };
+		23B96FB52659822300783CB5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B96FB42659822300783CB5 /* LoginView.swift */; };
 		AA7202095EC1CE1B63169798 /* Pods_E_Store.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F13D157190F8F7F3477294 /* Pods_E_Store.framework */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +35,8 @@
 		2355EB5526533E0E0003A323 /* SearchBar.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchBar.swift; sourceTree = "<group>"; };
 		2355EB6F2653603C0003A323 /* ViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewModel.swift; sourceTree = "<group>"; };
 		238E654526544D3F00523C14 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
+		23B96FAD26597C5600783CB5 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
+		23B96FB42659822300783CB5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		675BC301823DC4EA27D926DD /* Pods-E-Store.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E-Store.debug.xcconfig"; path = "Target Support Files/Pods-E-Store/Pods-E-Store.debug.xcconfig"; sourceTree = "<group>"; };
 		67A2F6F789C6690657850BE3 /* Pods-E-Store.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E-Store.release.xcconfig"; path = "Target Support Files/Pods-E-Store/Pods-E-Store.release.xcconfig"; sourceTree = "<group>"; };
 		C7F13D157190F8F7F3477294 /* Pods_E_Store.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_E_Store.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -72,8 +76,10 @@
 			isa = PBXGroup;
 			children = (
 				2355EB1A26532CB50003A323 /* E_StoreApp.swift */,
+				23B96FAD26597C5600783CB5 /* GoogleSignInButton.swift */,
 				2355EB5526533E0E0003A323 /* SearchBar.swift */,
 				2355EB1C26532CB50003A323 /* ContentView.swift */,
+				23B96FB42659822300783CB5 /* LoginView.swift */,
 				2355EB1E26532CB60003A323 /* Assets.xcassets */,
 				2355EB2326532CB60003A323 /* Info.plist */,
 				2355EB2026532CB60003A323 /* Preview Content */,
@@ -123,6 +129,7 @@
 				2355EB1426532CB50003A323 /* Frameworks */,
 				2355EB1526532CB50003A323 /* Resources */,
 				2C897B767485418D34DB4263 /* [CP] Embed Pods Frameworks */,
+				06E0C80210D72C06EACB3A55 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -179,6 +186,23 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		06E0C80210D72C06EACB3A55 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		2C897B767485418D34DB4263 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -228,7 +252,9 @@
 				238E654626544D4000523C14 /* AsyncImage.swift in Sources */,
 				2355EB2B26532CE50003A323 /* Catalog.swift in Sources */,
 				2355EB1D26532CB50003A323 /* ContentView.swift in Sources */,
+				23B96FB52659822300783CB5 /* LoginView.swift in Sources */,
 				2355EB5626533E0E0003A323 /* SearchBar.swift in Sources */,
+				23B96FAE26597C5600783CB5 /* GoogleSignInButton.swift in Sources */,
 				2355EB1B26532CB50003A323 /* E_StoreApp.swift in Sources */,
 				2355EB702653603C0003A323 /* ViewModel.swift in Sources */,
 				2355EB2E26532DB80003A323 /* Model.swift in Sources */,

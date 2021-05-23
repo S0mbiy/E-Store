@@ -15,4 +15,5 @@ struct Product: Codable, Identifiable {
     let price: Float
     let description: String
     let image: String
+    let rating: Float
 }
