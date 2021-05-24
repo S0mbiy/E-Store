@@ -13,6 +13,9 @@ struct Catalog: View {
     @State var showAuth = false
     @State var user: Bool = false
     
+    let sorts = ["Rating descencing", "Rating ascending", "Name desceniding", "Name ascending", "Price descending", "Price ascending"]
+    
+    
     var body: some View {
        
         VStack{
@@ -37,6 +40,25 @@ struct Catalog: View {
             }.padding()
         
             SearchBar(text: $searchText, catalog: catalog)
+            HStack{
+                Spacer()
+                Spacer()
+                Section {
+                    Picker("sort", selection: $catalog.selection) {
+                        ForEach(sorts, id: \.self) {
+                            Text($0)
+                        }
+                    }
+                    .pickerStyle(MenuPickerStyle()) //SegmentedPickerStyle
+                }.padding()
+//                Button(action: {catalog.showSort.toggle()}, label: {Text("sort")}).padding()
+            }
+            
+//            if catalog.showSort{
+//                Picker space
+//            }
+            
+            
             List{
                 ForEach(catalog.products) { item in
                     HStack{

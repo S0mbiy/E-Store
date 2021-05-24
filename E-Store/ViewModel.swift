@@ -9,10 +9,64 @@ import Foundation
 import Firebase
 import FirebaseFirestoreSwift
 import UIKit
+import SwiftUI
 
 
 class CatalogViewModel: ObservableObject { // (1)
-    @Published var products = [Product]()
+//    @Published var showSort: Bool = false
+    
+    var field = "rating"
+    var descending = true
+    var selection: String = "Rating descending"{
+        didSet {
+//            print("Selection changed to \(selection)")
+//            showSort = false
+            switch selection{
+            case "Rating descencing":
+                self.field = "rating"
+                self.descending = true
+            case "Rating ascending":
+                self.field = "rating"
+                self.descending = false
+            case "Name desceniding":
+                self.field = "name"
+                self.descending = true
+            case "Name ascending":
+                self.field = "name"
+                self.descending = false
+            case "Price descending":
+                self.field = "price"
+                self.descending = true
+            case "Price ascending":
+                self.field = "price"
+                self.descending = false
+            default:
+                print("AppError: Unknown selection made")
+            }
+            updateOccurred = true
+            let tmp = self.products
+            self.products = tmp
+        }
+    }
+    
+    var updateOccurred = false
+    @Published var products = [Product]() {
+        didSet {
+            if updateOccurred{
+                updateOccurred = false
+                switch field{
+                case "rating":
+                    products = descending ? products.sorted(by: { $0.rating > $1.rating }) : products.sorted(by: { $0.rating < $1.rating })
+                case "price":
+                    products = descending ? products.sorted(by: { $0.price > $1.price }) : products.sorted(by: { $0.price < $1.price })
+                case "name":
+                    products = descending ? products.sorted(by: { $0.name > $1.name }) : products.sorted(by: { $0.name < $1.name })
+                default:
+                    print("AppError: Missing sort logic")
+                }
+            }
+        }
+    }
     let db = Firestore.firestore()
     var myQuery: Query
     var previousDoc: DocumentSnapshot!
@@ -27,11 +81,12 @@ class CatalogViewModel: ObservableObject { // (1)
 //                }
 //            }
 //        }
-        myQuery = db.collection("products").order(by: "rating", descending: true).limit(to: 10)
+        myQuery = db.collection("products").limit(to: 7)
         myQuery.getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Firestore error: ", err)
             } else {
+                self.updateOccurred = true
                 self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
                     try? queryDocumentSnapshot.data(as: Product.self)
                 }
@@ -39,6 +94,7 @@ class CatalogViewModel: ObservableObject { // (1)
             }
         }
     }
+
     func next(){
         myQuery = myQuery.start(afterDocument: previousDoc)
         myQuery.getDocuments() { (querySnapshot, err) in
@@ -47,6 +103,7 @@ class CatalogViewModel: ObservableObject { // (1)
             } else if querySnapshot!.isEmpty {
                 return
             } else {
+                self.updateOccurred = true
                 self.products += querySnapshot!.documents.compactMap { queryDocumentSnapshot in
                     try? queryDocumentSnapshot.data(as: Product.self)
                 }
@@ -61,13 +118,16 @@ class CatalogViewModel: ObservableObject { // (1)
         if (text != ""){
             myQuery = db.collection("products")
             for word in text.lowercased().components(separatedBy: " "){
-                myQuery = myQuery.whereField("keywords.\(word)", isEqualTo: true)
+                if(word != ""){
+                    myQuery = myQuery.whereField("keywords.\(word)", isEqualTo: true)
+                }
             }
-            myQuery = myQuery.limit(to: 10)
+            myQuery = myQuery.limit(to: 7)
             myQuery.getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Firestore error: ", err)
                 } else {
+                    self.updateOccurred = true
                     self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
                         try? queryDocumentSnapshot.data(as: Product.self)
                     }
@@ -75,11 +135,12 @@ class CatalogViewModel: ObservableObject { // (1)
                 }
             }
         }else{
-            myQuery = db.collection("products").order(by: "rating", descending: true).limit(to: 10)
+            myQuery = db.collection("products").limit(to: 7)
             myQuery.getDocuments() { (querySnapshot, err) in
                 if let err = err {
                     print("Firestore error: ", err)
                 } else {
+                    self.updateOccurred = true
                     self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
                         try? queryDocumentSnapshot.data(as: Product.self)
                     }
@@ -109,3 +170,4 @@ class ImageLoader: ObservableObject {
             .store(in: &cancellables)
     }
 }
+
