@@ -9,9 +9,10 @@ import SwiftUI
 
 struct Catalog: View {
     @State private var searchText = ""
-    @ObservedObject var catalog: CatalogViewModel = CatalogViewModel()
+    @StateObject var catalog: CatalogViewModel = CatalogViewModel()
     @State var showAuth = false
     @State var user: Bool = false
+    @State var selection: Int? = nil
     
     let sorts = ["Rating descencing", "Rating ascending", "Name desceniding", "Name ascending", "Price descending", "Price ascending"]
     
@@ -24,25 +25,31 @@ struct Catalog: View {
             }.hidden()
             
             HStack{
-                Text("E-Store")
-                    .font(.system(size: 56.0)).bold().foregroundColor(.red)
-                    
-                Spacer()
-                
                 Button(action:{
                     DispatchQueue.main.asyncAfter(deadline: .now()) {
                         self.showAuth = true
                     }
                 }){
-                    Image(systemName: "person.fill").font(.system(size: 40.0)).foregroundColor(.red)
+                    Image(systemName: "person.fill").font(.system(size: 30.0)).foregroundColor(.red)
+                }
+                Spacer()
+                Text("E-Store")
+                    .font(.system(size: 50.0)).bold().foregroundColor(.red)
+                Spacer()
+                NavigationLink(destination: CartView(homeData: catalog), tag: 1, selection: $selection) {
+                    Button(action:{
+                        self.selection = 1
+                    }){
+                        Text("Cart")
+                            .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                    }
                 }
                 
             }.padding()
         
-            SearchBar(text: $searchText, catalog: catalog)
+            
             HStack{
-                Spacer()
-                Spacer()
+                SearchBar(text: $searchText, catalog: catalog)
                 Section {
                     Picker("sort", selection: $catalog.selection) {
                         ForEach(sorts, id: \.self) {
@@ -50,7 +57,8 @@ struct Catalog: View {
                         }
                     }
                     .pickerStyle(MenuPickerStyle()) //SegmentedPickerStyle
-                }.padding()
+                }
+                .padding(EdgeInsets(.init(top: 0, leading: 0, bottom: 0, trailing: 15)))
 //                Button(action: {catalog.showSort.toggle()}, label: {Text("sort")}).padding()
             }
             
@@ -85,6 +93,11 @@ struct Catalog: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 100, height: 100)
                         .cornerRadius(15)
+                        Button(action: {
+                            catalog.addToCart(product:item)
+                        }) {
+                            Image(systemName: "plus")
+                        }
                     }
                 }
                 Rectangle().hidden().onAppear {

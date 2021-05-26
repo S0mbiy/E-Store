@@ -15,6 +15,9 @@ import SwiftUI
 class CatalogViewModel: ObservableObject { // (1)
 //    @Published var showSort: Bool = false
     
+    @Published var cartItems: [CartItem] = []
+    
+    
     var field = "rating"
     var descending = true
     var selection: String = "Rating descending"{
@@ -72,15 +75,6 @@ class CatalogViewModel: ObservableObject { // (1)
     var previousDoc: DocumentSnapshot!
     
     init() {
-//        for _ in [1,2,3,4,5]{
-//            db.collection("products").addDocument(data: ["name": "Nike Hat", "price": 9.99, "description": "Great hat", "image": "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSvYunDzux2reJBgICiV0b2CLzUT1LyUwADURKVeGzNFSEElhGGseEjRetYx7T4E6BVhpNe86ISbw&usqp=CAc", "rating": 5, "keywords": ["nike": true, "hat": true]]){ err in
-//                if let err = err {
-//                    print("Error adding document: \(err)")
-//                } else {
-//                    print("Document added")
-//                }
-//            }
-//        }
         myQuery = db.collection("products").limit(to: 7)
         myQuery.getDocuments() { (querySnapshot, err) in
             if let err = err {
@@ -148,6 +142,41 @@ class CatalogViewModel: ObservableObject { // (1)
                 }
             }
         }
+    }
+    
+    func addToCart(product: Product) {
+        let item = CartItem(id: product.id!, item: product, quantity: 1)
+        if !cartItems.contains(item) {
+            cartItems.append(item)
+        }
+    }
+    
+    func getCartIndex(cart: CartItem) -> Int{
+        
+        let index = self.cartItems.firstIndex{ (cart1) -> Bool in
+            
+                return cart.id == cart1.id
+        } ?? 0
+       return index
+    }
+    
+    func deleteFromCart(cart: CartItem) {
+        let index = getCartIndex(cart: cart)
+        cartItems.remove(at: index)
+    }
+    
+    func getTotal() -> String {
+        var price : Double = 0
+        
+        cartItems.forEach{ (item) in
+            price += Double(Double(truncating: NSNumber(value: item.quantity)) * Double(truncating: NSNumber(value: item.item.price)))
+            
+        }
+        let format = NumberFormatter()
+        format.numberStyle = .decimal
+        
+        let string = format.string(from: NSNumber(value: price)) ?? ""
+        return "$\(String(string))"
     }
 }
 
