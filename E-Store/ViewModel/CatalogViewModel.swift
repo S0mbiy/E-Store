@@ -87,6 +87,31 @@ class CatalogViewModel: ObservableObject { // (1)
                 self.previousDoc = querySnapshot!.documents.last
             }
         }
+        
+        if let user = Auth.auth().currentUser{
+            let cart = db.collection("users").document(user.uid)
+            cart.getDocument{ (document, error) in
+                if let err = error {
+                    print("Error getting documents: \(err)")
+                } else {
+                    if let cart = document?.get("cart"){
+                        let items = cart as! [Any]
+                        
+                        items.forEach{ item in
+                            let parseItem = item as! [String: Any]
+                            let product = parseItem["item"] as! [String: Any]
+                        
+                            let parseProduct = Product(id: product["id"] as? String,name: product["name"] as! String, price: product["price"] as! Float, description: product["description"] as! String, image: product["image"] as! String, rating: product["rating"] as! Float)
+                            
+                            self.cartItems.append(CartItem(item: parseProduct, quantity: parseItem["quantity"] as! Int))
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
+        
     }
 
     func next(){
@@ -145,10 +170,12 @@ class CatalogViewModel: ObservableObject { // (1)
     }
     
     func addToCart(product: Product) {
-        let item = CartItem(id: product.id!, item: product, quantity: 1)
+        let item = CartItem(id: product.id,item: product, quantity: 1)
         if !cartItems.contains(item) {
             cartItems.append(item)
         }
+        
+        updateCartData()
     }
     
     func getCartIndex(cart: CartItem) -> Int{
@@ -163,6 +190,8 @@ class CatalogViewModel: ObservableObject { // (1)
     func deleteFromCart(cart: CartItem) {
         let index = getCartIndex(cart: cart)
         cartItems.remove(at: index)
+        
+        updateCartData()
     }
     
     func getTotal() -> String {
@@ -177,6 +206,36 @@ class CatalogViewModel: ObservableObject { // (1)
         
         let string = format.string(from: NSNumber(value: price)) ?? ""
         return "$\(String(string))"
+    }
+    
+    func updateCartData(){
+        if let user = Auth.auth().currentUser?.uid {
+            var details : [[String : Any]] = []
+            
+            self.cartItems.forEach{ (cart) in
+                
+                details.append([
+                    "id": cart.id ?? "",
+                    "item": [
+                        "name": cart.item.name,
+                        "price": cart.item.price,
+                        "description": cart.item.description,
+                        "image": cart.item.image,
+                        "rating": cart.item.rating
+                    ],
+                    "quantity": cart.quantity
+                ])
+            }
+        
+            db.collection("users").document(user).setData([
+                "cart": details
+            ], merge: false){ (err) in
+            if err != nil{
+                return
+            }
+                print("Success!! Order was uploaded")
+            }
+        }
     }
 }
 

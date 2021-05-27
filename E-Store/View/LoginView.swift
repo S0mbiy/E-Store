@@ -6,6 +6,8 @@
 //
 
 import SwiftUI
+import Firebase
+import FirebaseAuth
 
 enum AppError: Error{
     case CredentailError
@@ -15,36 +17,63 @@ struct LoginView: View {
   
     @State var showAuthAlert: Bool = false
     @State var authError: Error?
-    @Binding var user: Bool
+    @State var user: User? = Auth.auth().currentUser
+    
   
     var body: some View {
-        VStack{
-            Text("Login").font(.title).bold().foregroundColor(.red)
-            Spacer(minLength: 20)
-            GoogleSignInButton(showAuthAlert: $showAuthAlert, authError: $authError) { (authCredential) in
-                
-                if let credential = authCredential{
-                    self.user = true
+        if user != nil {
+            let current = Auth.auth().currentUser
+            VStack{
+                HStack{
+                    Button("Log out"){
+                        let firebaseAuth = Auth.auth()
+                      do {
+                        try firebaseAuth.signOut()
+                        self.user = Auth.auth().currentUser
+                      } catch let signOutError as NSError {
+                        print ("Error signing out: %@", signOutError)
+                      }
+                    }
                 }
-                else{
-                    self.authError = AppError.CredentailError
-                    self.showAuthAlert = true
-                    self.user = false
-                    return
-                }
+                .frame(alignment: .trailing)
+                Text((current?.displayName)!)
+                Text((current?.email)!)
+            }
+        } else {
+            VStack{
+                Text("Login").font(.title).bold().foregroundColor(.red)
+                Spacer(minLength: 20)
+                GoogleSignInButton(showAuthAlert: $showAuthAlert, authError: $authError) { (authCredential) in
+                    if let credential = authCredential{
+                        Auth.auth().signIn(with: credential) { (authResult, error) in
+                          if let error = error {
+                            print(error)
+                          } else{
+                            self.user = Auth.auth().currentUser
+                          }
+                        }
+                        
+                    }
+                    else{
+                        self.authError = AppError.CredentailError
+                        self.showAuthAlert = true
+                        return
+                    }
+                    
+                   // Your further auth logic goes here (eg: FirebaseAuth)
+                }.padding()
+                .cornerRadius(15)
                 
-               // Your further auth logic goes here (eg: FirebaseAuth)
-            }.padding()
-            .cornerRadius(15)
-            
+            }
+            .alert(isPresented: $showAuthAlert) {
+                
+                Alert(title: Text("Login Failed"),
+                      message: Text("\(self.authError?.localizedDescription ?? "Unknown Reason")"),
+                      dismissButton: .default(Text("OK"), action: {
+                        self.showAuthAlert = false
+                      }))
+            }
         }
-        .alert(isPresented: $showAuthAlert) {
-            
-            Alert(title: Text("Login Failed"),
-                  message: Text("\(self.authError?.localizedDescription ?? "Unknown Reason")"),
-                  dismissButton: .default(Text("OK"), action: {
-                    self.showAuthAlert = false
-                  }))
-        }
+        
     }
 }

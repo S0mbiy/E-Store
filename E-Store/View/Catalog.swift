@@ -11,7 +11,6 @@ struct Catalog: View {
     @State private var searchText = ""
     @StateObject var catalog: CatalogViewModel = CatalogViewModel()
     @State var showAuth = false
-    @State var user: Bool = false
     @State var selection: Int? = nil
     
     let sorts = ["Rating descencing", "Rating ascending", "Name desceniding", "Name ascending", "Price descending", "Price ascending"]
@@ -20,7 +19,7 @@ struct Catalog: View {
     var body: some View {
        
         VStack{
-            NavigationLink(destination: LoginView(user: $user), isActive: $showAuth) {
+            NavigationLink(destination: LoginView(), isActive: $showAuth) {
                                 EmptyView()
             }.hidden()
             

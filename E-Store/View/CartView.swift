@@ -60,6 +60,7 @@ struct CartView: View {
                                     Button(action: {
                                         if cart.quantity > 1 {
                                             homeData.cartItems[homeData.getCartIndex(cart: cart)].quantity -= 1
+                                            homeData.updateCartData()
                                         }
                                         
                                     }){
@@ -78,6 +79,7 @@ struct CartView: View {
                                     Button(action: {
                                         if cart.quantity < 10 {
                                             homeData.cartItems[homeData.getCartIndex(cart: cart)].quantity += 1
+                                            homeData.updateCartData()
                                         }
                                         
                                     }){

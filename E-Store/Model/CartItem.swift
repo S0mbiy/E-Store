@@ -6,13 +6,16 @@
 //
 
 import SwiftUI
+import FirebaseFirestore
+import FirebaseFirestoreSwift
 
-struct CartItem: Identifiable, Equatable{
-    var id: String?
-    var item: Product
+struct CartItem: Codable, Identifiable, Equatable{
+    @DocumentID var id: String?
+    let item: Product
     var quantity: Int
     
     static func ==(lhs: CartItem, rhs: CartItem) -> Bool{
         return lhs.item.id == rhs.item.id
     }
+
 }

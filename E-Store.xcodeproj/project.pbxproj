@@ -21,7 +21,6 @@
 		23B96FB52659822300783CB5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B96FB42659822300783CB5 /* LoginView.swift */; };
 		7259480E265CA9DC0091C3A5 /* CartView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7259480D265CA9DC0091C3A5 /* CartView.swift */; };
 		7259482B265DA0500091C3A5 /* CartItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7259482A265DA0500091C3A5 /* CartItem.swift */; };
-		72594832265DCE2C0091C3A5 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72594831265DCE2C0091C3A5 /* User.swift */; };
 		AA7202095EC1CE1B63169798 /* Pods_E_Store.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F13D157190F8F7F3477294 /* Pods_E_Store.framework */; };
 /* End PBXBuildFile section */
 
@@ -44,7 +43,6 @@
 		67A2F6F789C6690657850BE3 /* Pods-E-Store.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E-Store.release.xcconfig"; path = "Target Support Files/Pods-E-Store/Pods-E-Store.release.xcconfig"; sourceTree = "<group>"; };
 		7259480D265CA9DC0091C3A5 /* CartView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartView.swift; sourceTree = "<group>"; };
 		7259482A265DA0500091C3A5 /* CartItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartItem.swift; sourceTree = "<group>"; };
-		72594831265DCE2C0091C3A5 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		C7F13D157190F8F7F3477294 /* Pods_E_Store.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_E_Store.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -107,7 +105,6 @@
 			children = (
 				2355EB2D26532DB80003A323 /* Product.swift */,
 				7259482A265DA0500091C3A5 /* CartItem.swift */,
-				72594831265DCE2C0091C3A5 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -290,7 +287,6 @@
 				23B96FB52659822300783CB5 /* LoginView.swift in Sources */,
 				2355EB5626533E0E0003A323 /* SearchBar.swift in Sources */,
 				23B96FAE26597C5600783CB5 /* GoogleSignInButton.swift in Sources */,
-				72594832265DCE2C0091C3A5 /* User.swift in Sources */,
 				2355EB1B26532CB50003A323 /* E_StoreApp.swift in Sources */,
 				2355EB702653603C0003A323 /* CatalogViewModel.swift in Sources */,
 				2355EB2E26532DB80003A323 /* Product.swift in Sources */,
