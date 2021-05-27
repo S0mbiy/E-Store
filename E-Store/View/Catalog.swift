@@ -29,7 +29,7 @@ struct Catalog: View {
                         self.showAuth = true
                     }
                 }){
-                    Image(systemName: "person.fill").font(.system(size: 30.0)).foregroundColor(.red)
+                    Image(systemName: "person.fill").font(.system(size: 35.0)).foregroundColor(.red)
                 }
                 Spacer()
                 Text("E-Store")
@@ -39,8 +39,7 @@ struct Catalog: View {
                     Button(action:{
                         self.selection = 1
                     }){
-                        Text("Cart")
-                            .foregroundColor(/*@START_MENU_TOKEN@*/.blue/*@END_MENU_TOKEN@*/)
+                        Image(systemName: "cart").font(.system(size: 35.0)).foregroundColor(.red)
                     }
                 }
                 
