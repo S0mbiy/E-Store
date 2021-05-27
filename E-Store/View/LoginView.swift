@@ -17,48 +17,44 @@ struct LoginView: View {
   
     @State var showAuthAlert: Bool = false
     @State var authError: Error?
-    @State var user: User? = Auth.auth().currentUser
-    
+    @ObservedObject var catalog: CatalogViewModel
   
     var body: some View {
-        if user != nil {
-            let current = Auth.auth().currentUser
-            VStack{
-                HStack{
-                    Button("Log out"){
-                        let firebaseAuth = Auth.auth()
-                      do {
-                        try firebaseAuth.signOut()
-                        self.user = Auth.auth().currentUser
-                      } catch let signOutError as NSError {
-                        print ("Error signing out: %@", signOutError)
-                      }
-                    }
+        if catalog.user != nil {
+            VStack(spacing: 10){
+                AsyncImage(
+                    url: (catalog.user?.photoURL)!,
+                    placeholder: {Text("User image")}
+                )
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 100, height: 100)
+                .cornerRadius(40)
+                Text((catalog.user?.displayName) ?? "Missing name").font(.system(size: 20))
+                Text((catalog.user?.email) ?? "Missing email").font(.system(size: 20))
+                Spacer()
+                Button(action: {
+                    catalog.signOut()
+                }){
+                    Text("Log out").font(.system(size: 20))
+                        .bold()
+                        .padding(10)
+                        .background(Color.red)
+                        .foregroundColor(.white)
+                        .cornerRadius(10)
+                        
                 }
-                .frame(alignment: .trailing)
-                Text((current?.displayName)!)
-                Text((current?.email)!)
             }
         } else {
             VStack{
                 Text("Login").font(.title).bold().foregroundColor(.red)
                 Spacer(minLength: 20)
                 GoogleSignInButton(showAuthAlert: $showAuthAlert, authError: $authError) { (authCredential) in
-                    if let credential = authCredential{
-                        Auth.auth().signIn(with: credential) { (authResult, error) in
-                          if let error = error {
-                            print(error)
-                          } else{
-                            self.user = Auth.auth().currentUser
-                          }
-                        }
-                        
-                    }
-                    else{
+                    guard let credential = authCredential else{
                         self.authError = AppError.CredentailError
                         self.showAuthAlert = true
                         return
                     }
+                    catalog.signIn(credential: credential)
                     
                    // Your further auth logic goes here (eg: FirebaseAuth)
                 }.padding()

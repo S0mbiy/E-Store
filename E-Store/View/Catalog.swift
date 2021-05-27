@@ -9,7 +9,7 @@ import SwiftUI
 
 struct Catalog: View {
     @State private var searchText = ""
-    @StateObject var catalog: CatalogViewModel = CatalogViewModel()
+    @ObservedObject var catalog: CatalogViewModel = CatalogViewModel()
     @State var showAuth = false
     @State var selection: Int? = nil
     
@@ -19,7 +19,7 @@ struct Catalog: View {
     var body: some View {
        
         VStack{
-            NavigationLink(destination: LoginView(), isActive: $showAuth) {
+            NavigationLink(destination: LoginView(catalog: catalog), isActive: $showAuth) {
                                 EmptyView()
             }.hidden()
             
@@ -66,58 +66,61 @@ struct Catalog: View {
 //            }
             
             
-            List{
-                ForEach(catalog.products) { item in
-                    HStack{
-                        VStack(alignment: .leading){
-                            Text(item.name)
-                                .font(.system(size: 20))
-                            Spacer()
-                            
-                            HStack{
-                                Text("$\(String(item.price))")
-                                    .font(.system(size: 18)).bold()
-                                    .padding(.bottom)
+            ScrollView(.vertical, showsIndicators: false, content: {
+                VStack{
+                    ForEach(catalog.products) { item in
+                        HStack{
+                            VStack(alignment: .leading){
+                                Text(item.name)
+                                    .font(.system(size: 20))
                                 Spacer()
-                                Text("\(String(item.rating))⭐")
-                                    .font(.system(size: 18)).bold()
-                                    .padding(.bottom)
+                                
+                                HStack{
+                                    Text("$\(String(item.price))")
+                                        .font(.system(size: 18)).bold()
+                                        .padding(.bottom)
+                                    Spacer()
+                                    Text("\(String(item.rating))⭐")
+                                        .font(.system(size: 18)).bold()
+                                        .padding(.bottom)
+                                }
                             }
-                        }
-                        Spacer()
-                        AsyncImage(
-                            url: URL(string: item.image)!,
-                            placeholder: {Text("Loading ...")}
-                        )
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 100, height: 100)
-                        .cornerRadius(15)
-                        Button(action: {
-                            catalog.addToCart(product:item)
-                        }) {
-                            Image(systemName: "plus")
-                        }
+                            Spacer()
+                            AsyncImage(
+                                url: URL(string: item.image)!,
+                                placeholder: {Text("Loading ...")}
+                            )
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 100, height: 100)
+                            .cornerRadius(15)
+                            Button(action: {
+                                catalog.addToCart(product:item)
+                            }) {
+                                Image(systemName: "plus")
+                            }
+                        }.padding(.horizontal)
                     }
+//                    Rectangle().onAppear {
+//                        if !catalog.products.isEmpty{
+//                            catalog.next()
+//                            print("Reached the end")
+//                        }
+//                    }
                 }
-                Rectangle().hidden().onAppear {
-                    if !catalog.products.isEmpty{
-                        catalog.next()
-                        print("Reached the end")
-                    }
-                }
-            }.listStyle(PlainListStyle())
-//            HStack(spacing: 30){
-//                Button(action: {catalog.previous()}){
-//                                    Image(systemName: "chevron.left")
-//                                        .font(.system(size: 25, weight: .heavy))
-//                                        .foregroundColor(.black)
-//                                }
-//                Button(action: {catalog.next()}){
-//                                    Image(systemName: "chevron.right")
-//                                        .font(.system(size: 25, weight: .heavy))
-//                                        .foregroundColor(.black)
-//                                }
-//            }
+            })
+            HStack(spacing: 30){
+                Button(action: {catalog.previous()}){
+                                    Image(systemName: "chevron.left")
+                                        .font(.system(size: 25, weight: .heavy))
+                                        .foregroundColor(.black)
+                                        .opacity(catalog.hist.isEmpty ? 0.1 : 1)
+                }.disabled(catalog.hist.isEmpty)
+                Button(action: {catalog.next()}){
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 25, weight: .heavy))
+                                        .foregroundColor(.black)
+                                }
+            }
             
         }
     }

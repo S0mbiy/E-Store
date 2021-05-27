@@ -7,6 +7,7 @@
 import Combine
 import Foundation
 import Firebase
+import FirebaseAuth
 import FirebaseFirestoreSwift
 import UIKit
 import SwiftUI
@@ -16,7 +17,10 @@ class CatalogViewModel: ObservableObject { // (1)
 //    @Published var showSort: Bool = false
     
     @Published var cartItems: [CartItem] = []
-    
+
+    let firebaseAuth = Auth.auth()
+    @Published var user: User?
+
     
     var field = "rating"
     var descending = true
@@ -46,49 +50,24 @@ class CatalogViewModel: ObservableObject { // (1)
             default:
                 print("AppError: Unknown selection made")
             }
-            updateOccurred = true
-            let tmp = self.products
-            self.products = tmp
+            update()
         }
     }
     
-    var updateOccurred = false
-    @Published var products = [Product]() {
-        didSet {
-            if updateOccurred{
-                updateOccurred = false
-                switch field{
-                case "rating":
-                    products = descending ? products.sorted(by: { $0.rating > $1.rating }) : products.sorted(by: { $0.rating < $1.rating })
-                case "price":
-                    products = descending ? products.sorted(by: { $0.price > $1.price }) : products.sorted(by: { $0.price < $1.price })
-                case "name":
-                    products = descending ? products.sorted(by: { $0.name > $1.name }) : products.sorted(by: { $0.name < $1.name })
-                default:
-                    print("AppError: Missing sort logic")
-                }
-            }
-        }
-    }
+    @Published var products = [Product]()
     let db = Firestore.firestore()
     var myQuery: Query
+    var myOrderedQuery: Query
     var previousDoc: DocumentSnapshot!
+    @Published var hist: [DocumentSnapshot] = []
     
     init() {
-        myQuery = db.collection("products").limit(to: 7)
-        myQuery.getDocuments() { (querySnapshot, err) in
-            if let err = err {
-                print("Firestore error: ", err)
-            } else {
-                self.updateOccurred = true
-                self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
-                    try? queryDocumentSnapshot.data(as: Product.self)
-                }
-                self.previousDoc = querySnapshot!.documents.last
-            }
-        }
+        user = firebaseAuth.currentUser
+        self.myQuery = db.collection("products").limit(to: 7)
+        self.myOrderedQuery = db.collection("products").limit(to: 7)
+        update()
         
-        if let user = Auth.auth().currentUser{
+        if let user = firebaseAuth.currentUser{
             let cart = db.collection("users").document(user.uid)
             cart.getDocument{ (document, error) in
                 if let err = error {
@@ -115,24 +94,57 @@ class CatalogViewModel: ObservableObject { // (1)
     }
 
     func next(){
-        myQuery = myQuery.start(afterDocument: previousDoc)
-        myQuery.getDocuments() { (querySnapshot, err) in
+        myOrderedQuery.start(afterDocument: previousDoc).getDocuments() { (querySnapshot, err) in
             if let err = err {
                 print("Firestore error: ", err)
             } else if querySnapshot!.isEmpty {
                 return
             } else {
-                self.updateOccurred = true
-                self.products += querySnapshot!.documents.compactMap { queryDocumentSnapshot in
+                self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
+                    try? queryDocumentSnapshot.data(as: Product.self)
+                }
+                self.hist.append(self.previousDoc)
+                self.previousDoc = querySnapshot!.documents.last
+            }
+        }
+    }
+    func previous(){
+        let tmp = self.previousDoc
+        let end = hist.popLast()!
+        var tmpQuery: Query
+        if hist.isEmpty {
+            tmpQuery = myOrderedQuery.end(atDocument: end)
+        }else{
+            tmpQuery = myOrderedQuery.start(afterDocument: hist.last!).end(atDocument: end)
+        }
+        tmpQuery.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Firestore error: ", err)
+                self.previousDoc = tmp
+            } else if querySnapshot!.isEmpty {
+                return
+            } else {
+                self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
                     try? queryDocumentSnapshot.data(as: Product.self)
                 }
                 self.previousDoc = querySnapshot!.documents.last
             }
         }
     }
-//    func previous(){
-//
-//    }
+    func update(){
+        self.hist = []
+        myOrderedQuery = myQuery.order(by: self.field, descending: self.descending)
+        myOrderedQuery.getDocuments() { (querySnapshot, err) in
+            if let err = err {
+                print("Firestore error: ", err)
+            } else {
+                self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
+                    try? queryDocumentSnapshot.data(as: Product.self)
+                }
+                self.previousDoc = querySnapshot!.documents.last
+            }
+        }
+    }
     func search(text: String){
         if (text != ""){
             myQuery = db.collection("products")
@@ -142,30 +154,27 @@ class CatalogViewModel: ObservableObject { // (1)
                 }
             }
             myQuery = myQuery.limit(to: 7)
-            myQuery.getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Firestore error: ", err)
-                } else {
-                    self.updateOccurred = true
-                    self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
-                        try? queryDocumentSnapshot.data(as: Product.self)
-                    }
-                    self.previousDoc = querySnapshot!.documents.last
-                }
-            }
         }else{
             myQuery = db.collection("products").limit(to: 7)
-            myQuery.getDocuments() { (querySnapshot, err) in
-                if let err = err {
-                    print("Firestore error: ", err)
-                } else {
-                    self.updateOccurred = true
-                    self.products = querySnapshot!.documents.compactMap { queryDocumentSnapshot in
-                        try? queryDocumentSnapshot.data(as: Product.self)
-                    }
-                    self.previousDoc = querySnapshot!.documents.last
-                }
-            }
+        }
+        update()
+    }
+    func signOut(){
+        do {
+            try firebaseAuth.signOut()
+            self.user = firebaseAuth.currentUser
+        } catch let signOutError as NSError {
+            print ("Error signing out: %@", signOutError)
+        }
+    }
+    
+    func signIn(credential: AuthCredential){
+        firebaseAuth.signIn(with: credential) { (authResult, error) in
+          if let error = error {
+            print ("Error signing in: %@", error)
+          } else{
+            self.user = self.firebaseAuth.currentUser
+          }
         }
     }
     
