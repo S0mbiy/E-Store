@@ -19,7 +19,8 @@
 		238E654626544D4000523C14 /* AsyncImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = 238E654526544D3F00523C14 /* AsyncImage.swift */; };
 		23B96FAE26597C5600783CB5 /* GoogleSignInButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B96FAD26597C5600783CB5 /* GoogleSignInButton.swift */; };
 		23B96FB52659822300783CB5 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 23B96FB42659822300783CB5 /* LoginView.swift */; };
-		AA7202095EC1CE1B63169798 /* Pods_E_Store.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = C7F13D157190F8F7F3477294 /* Pods_E_Store.framework */; };
+		33923F20265C731900EC8165 /* IndividualProductView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 33923F1F265C731900EC8165 /* IndividualProductView.swift */; };
+		463E79516AF5FB5390ED6E2A /* Pods_E_Store.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9F0BA423E7C83A03FB53E0B6 /* Pods_E_Store.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -37,9 +38,10 @@
 		238E654526544D3F00523C14 /* AsyncImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AsyncImage.swift; sourceTree = "<group>"; };
 		23B96FAD26597C5600783CB5 /* GoogleSignInButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoogleSignInButton.swift; sourceTree = "<group>"; };
 		23B96FB42659822300783CB5 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
-		675BC301823DC4EA27D926DD /* Pods-E-Store.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E-Store.debug.xcconfig"; path = "Target Support Files/Pods-E-Store/Pods-E-Store.debug.xcconfig"; sourceTree = "<group>"; };
-		67A2F6F789C6690657850BE3 /* Pods-E-Store.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E-Store.release.xcconfig"; path = "Target Support Files/Pods-E-Store/Pods-E-Store.release.xcconfig"; sourceTree = "<group>"; };
-		C7F13D157190F8F7F3477294 /* Pods_E_Store.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_E_Store.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		33923F1F265C731900EC8165 /* IndividualProductView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IndividualProductView.swift; sourceTree = "<group>"; };
+		9F0BA423E7C83A03FB53E0B6 /* Pods_E_Store.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_E_Store.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		BFF5BEE6C4BECE0ABE2C0409 /* Pods-E-Store.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E-Store.debug.xcconfig"; path = "Target Support Files/Pods-E-Store/Pods-E-Store.debug.xcconfig"; sourceTree = "<group>"; };
+		EA4036E9E4D5C6518EFBB086 /* Pods-E-Store.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-E-Store.release.xcconfig"; path = "Target Support Files/Pods-E-Store/Pods-E-Store.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -47,7 +49,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				AA7202095EC1CE1B63169798 /* Pods_E_Store.framework in Frameworks */,
+				463E79516AF5FB5390ED6E2A /* Pods_E_Store.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -60,7 +62,7 @@
 				2355EB1926532CB50003A323 /* E-Store */,
 				2355EB1826532CB50003A323 /* Products */,
 				808942CE2B05E942E96FB094 /* Pods */,
-				9B787768BE38670F14F80FC1 /* Frameworks */,
+				6C7AFDCED64A41FDABF33C3A /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -88,6 +90,7 @@
 				2355EB2D26532DB80003A323 /* Model.swift */,
 				238E654526544D3F00523C14 /* AsyncImage.swift */,
 				2355EB30265331360003A323 /* GoogleService-Info.plist */,
+				33923F1F265C731900EC8165 /* IndividualProductView.swift */,
 			);
 			path = "E-Store";
 			sourceTree = "<group>";
@@ -100,21 +103,21 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		6C7AFDCED64A41FDABF33C3A /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9F0BA423E7C83A03FB53E0B6 /* Pods_E_Store.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		808942CE2B05E942E96FB094 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				675BC301823DC4EA27D926DD /* Pods-E-Store.debug.xcconfig */,
-				67A2F6F789C6690657850BE3 /* Pods-E-Store.release.xcconfig */,
+				BFF5BEE6C4BECE0ABE2C0409 /* Pods-E-Store.debug.xcconfig */,
+				EA4036E9E4D5C6518EFBB086 /* Pods-E-Store.release.xcconfig */,
 			);
 			path = Pods;
-			sourceTree = "<group>";
-		};
-		9B787768BE38670F14F80FC1 /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				C7F13D157190F8F7F3477294 /* Pods_E_Store.framework */,
-			);
-			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -124,12 +127,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 2355EB2626532CB60003A323 /* Build configuration list for PBXNativeTarget "E-Store" */;
 			buildPhases = (
-				2FB76BDEFCBDF49B189634E4 /* [CP] Check Pods Manifest.lock */,
+				AFA0F67F4991E5B5BCF74DED /* [CP] Check Pods Manifest.lock */,
 				2355EB1326532CB50003A323 /* Sources */,
 				2355EB1426532CB50003A323 /* Frameworks */,
 				2355EB1526532CB50003A323 /* Resources */,
-				2C897B767485418D34DB4263 /* [CP] Embed Pods Frameworks */,
-				06E0C80210D72C06EACB3A55 /* [CP] Copy Pods Resources */,
+				7B367261CEF112B8530359B3 /* [CP] Embed Pods Frameworks */,
+				80C1902AA41DE6024F7067F7 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -186,24 +189,7 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		06E0C80210D72C06EACB3A55 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources-${CONFIGURATION}-input-files.xcfilelist",
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources-${CONFIGURATION}-output-files.xcfilelist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		2C897B767485418D34DB4263 /* [CP] Embed Pods Frameworks */ = {
+		7B367261CEF112B8530359B3 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -220,7 +206,24 @@
 			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		2FB76BDEFCBDF49B189634E4 /* [CP] Check Pods Manifest.lock */ = {
+		80C1902AA41DE6024F7067F7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-E-Store/Pods-E-Store-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		AFA0F67F4991E5B5BCF74DED /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -252,6 +255,7 @@
 				238E654626544D4000523C14 /* AsyncImage.swift in Sources */,
 				2355EB2B26532CE50003A323 /* Catalog.swift in Sources */,
 				2355EB1D26532CB50003A323 /* ContentView.swift in Sources */,
+				33923F20265C731900EC8165 /* IndividualProductView.swift in Sources */,
 				23B96FB52659822300783CB5 /* LoginView.swift in Sources */,
 				2355EB5626533E0E0003A323 /* SearchBar.swift in Sources */,
 				23B96FAE26597C5600783CB5 /* GoogleSignInButton.swift in Sources */,
@@ -382,7 +386,7 @@
 		};
 		2355EB2726532CB60003A323 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 675BC301823DC4EA27D926DD /* Pods-E-Store.debug.xcconfig */;
+			baseConfigurationReference = BFF5BEE6C4BECE0ABE2C0409 /* Pods-E-Store.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
@@ -404,7 +408,7 @@
 		};
 		2355EB2826532CB60003A323 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 67A2F6F789C6690657850BE3 /* Pods-E-Store.release.xcconfig */;
+			baseConfigurationReference = EA4036E9E4D5C6518EFBB086 /* Pods-E-Store.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;

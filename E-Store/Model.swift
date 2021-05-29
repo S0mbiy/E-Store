@@ -16,4 +16,13 @@ struct Product: Codable, Identifiable {
     let description: String
     let image: String
     let rating: Float
+    
+    init() {
+        name = "Some product"
+        price = 0.0
+        description = "Any description"
+        image = ""
+        rating = 0.0
+    }
+
 }

@@ -19,7 +19,7 @@ struct E_StoreApp: App {
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            Catalog()
         }
     }
 }

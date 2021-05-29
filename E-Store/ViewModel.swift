@@ -171,3 +171,53 @@ class ImageLoader: ObservableObject {
     }
 }
 
+class IndividualProduct: ObservableObject {
+
+    let db = Firestore.firestore()
+    var productUid: String
+    @Published var product = Product()
+    
+    init(productUid: String) {
+        self.productUid = productUid
+        let myQuery = db.collection("products").document(productUid)
+        
+        myQuery.getDocument {
+            (document, error) in
+            let result = Result {
+                try document?.data(as: Product.self)
+            }
+            
+            switch result {
+                case .success(let product):
+                    if let product = product {
+                        // A `City` value was successfully initialized from the DocumentSnapshot.
+                        print("City: \(product)")
+                        self.product = product
+                    } else {
+                        // A nil value was successfully initialized from the DocumentSnapshot,
+                        // or the DocumentSnapshot was nil.
+                        print("Document does not exist")
+                    }
+                case .failure(let error):
+                    // A `City` value could not be initialized from the DocumentSnapshot.
+                    print("Error decoding city: \(error)")
+                }
+        }
+    }
+}
+
+extension UIImageView {
+    func load(url: URL) {
+        DispatchQueue.global().async {
+        [weak self] in
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async {
+                        self?.image = image
+                    }
+                }
+            }
+        }
+    }
+}
+

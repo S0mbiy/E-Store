@@ -13,7 +13,7 @@ struct Catalog: View {
     @State var showAuth = false
     @State var user: Bool = false
     
-    let sorts = ["Rating descencing", "Rating ascending", "Name desceniding", "Name ascending", "Price descending", "Price ascending"]
+    let sorts = ["Rating descencing", "Rating ascending", "Name desceniding", "Name ascending", "Price descending", "Price ascending"]							
     
     
     var body: some View {
@@ -85,6 +85,9 @@ struct Catalog: View {
                         .aspectRatio(contentMode: .fit)
                         .frame(width: 100, height: 100)
                         .cornerRadius(15)
+                    }.contentShape(Rectangle())      // << here !!
+                    .onTapGesture {
+                        print("tapped")
                     }
                 }
                 Rectangle().hidden().onAppear {
