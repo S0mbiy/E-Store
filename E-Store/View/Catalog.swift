@@ -9,8 +9,10 @@ import SwiftUI
 
 struct Catalog: View {
     @State private var searchText = ""
+    @State private var selectedProduct: Product = Product(id: "" ,name: "", price: 0.0, description: "", image: "", rating: 0.0)
     @ObservedObject var catalog: CatalogViewModel = CatalogViewModel()
     @State var showAuth = false
+    @State var showProduct = false
     @State var selection: Int? = nil
     
     let sorts = ["Rating descencing", "Rating ascending", "Name desceniding", "Name ascending", "Price descending", "Price ascending"]
@@ -22,6 +24,13 @@ struct Catalog: View {
             NavigationLink(destination: LoginView(catalog: catalog), isActive: $showAuth) {
                                 EmptyView()
             }.hidden()
+            
+            
+            NavigationLink(destination: ProductView(product: self.selectedProduct, catalog: self.catalog), isActive: $showProduct) {
+                                    EmptyView()
+                
+                }.hidden()
+            
             
             HStack{
                 Button(action:{
@@ -67,8 +76,11 @@ struct Catalog: View {
             
             ScrollView(.vertical, showsIndicators: false, content: {
                 VStack{
+                    
                     ForEach(catalog.products) { item in
                         HStack{
+                    
+                            
                             VStack(alignment: .leading){
                                 Text(item.name)
                                     .font(.system(size: 20))
@@ -91,7 +103,14 @@ struct Catalog: View {
                             )
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 100, height: 100)
-                            .cornerRadius(15)
+                            .cornerRadius(15).contentShape(Rectangle())      // << here !!
+                            .onTapGesture {
+                                print("tapped")
+                                self.selectedProduct = item
+                                DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                    self.showProduct = true
+                                }
+                            }
                             Button(action: {
                                 catalog.addToCart(product:item)
                             }) {
