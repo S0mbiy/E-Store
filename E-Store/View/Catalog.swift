@@ -26,7 +26,7 @@ struct Catalog: View {
             }.hidden()
             
             
-            NavigationLink(destination: ProductView(product: self.selectedProduct, catalog: self.catalog), isActive: $showProduct) {
+            NavigationLink(destination: ProductView(product: self.selectedProduct, catalog: self.catalog,  showProduct: $showProduct), isActive: $showProduct) {
                                     EmptyView()
                 
                 }.hidden()

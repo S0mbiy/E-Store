@@ -10,6 +10,7 @@ import SwiftUI
 struct ProductView: View {
     let product: Product
     var catalog: CatalogViewModel
+    var showProduct: Binding<Bool>
     var body: some View {
         NavigationView {
             VStack(alignment: .center) {
@@ -35,6 +36,7 @@ struct ProductView: View {
                             Button(action: {
                                 print("added")
                                 catalog.addToCart(product: product)
+                                    showProduct.wrappedValue = false
                             }, label: {
                                 Text("Comprar")
                                     .font(
