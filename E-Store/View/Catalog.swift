@@ -103,20 +103,20 @@ struct Catalog: View {
                             )
                             .aspectRatio(contentMode: .fit)
                             .frame(width: 100, height: 100)
-                            .cornerRadius(15).contentShape(Rectangle())      // << here !!
-                            .onTapGesture {
-                                print("tapped")
-                                self.selectedProduct = item
-                                DispatchQueue.main.asyncAfter(deadline: .now()) {
-                                    self.showProduct = true
-                                }
-                            }
+                            .cornerRadius(15)
                             Button(action: {
                                 catalog.addToCart(product:item)
                             }) {
                                 Image(systemName: "plus")
                             }
-                        }.padding(.horizontal)
+                        }.padding(.horizontal).contentShape(Rectangle())
+                        .onTapGesture {
+                            print("tapped")
+                            self.selectedProduct = item
+                            DispatchQueue.main.asyncAfter(deadline: .now()) {
+                                self.showProduct = true
+                            }
+                        }
                     }
 //                    Rectangle().onAppear {
 //                        if !catalog.products.isEmpty{
