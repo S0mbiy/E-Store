@@ -93,4 +93,6 @@ class Coordinator: NSObject, GIDSignInDelegate {
           control.showAuthAlert.wrappedValue = true
         }
     }
+    
+    
 }
