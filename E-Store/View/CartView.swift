@@ -10,6 +10,7 @@ import SwiftUI
 struct CartView: View {
     @ObservedObject var homeData: CatalogViewModel
     @Environment(\.presentationMode) var present
+    @State var selection: Int? = nil
     
     var body: some View {
         VStack{
@@ -21,7 +22,7 @@ struct CartView: View {
                         .foregroundColor(.black)
                 }
                 
-                Text("Your order")
+                Text("Your cart")
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(.black)
@@ -118,18 +119,23 @@ struct CartView: View {
                     }
                     .padding([.top, .horizontal])
                     
-                    Button(action: {}){
-                        Text( "Check out")
-                            .font(.title2)
-                            .fontWeight(.heavy)
-                            .foregroundColor(.white)
-                            .padding(.vertical)
-                            .frame(width: UIScreen.main.bounds.width - 30)
-                            .background(
-                                LinearGradient(gradient: .init(colors: [Color.blue, Color.blue]), startPoint: .leading, endPoint: .trailing)
-                            )
-                            .cornerRadius(15)
+                    NavigationLink(destination: PaymentView(vm: PaymentViewModel(subtotal: Int(homeData.getTotal()) ?? 0 , homeData: homeData)), tag: 1, selection: $selection){
+                        Button(action: {
+                            self.selection = 1
+                        }){
+                            Text( "Check out")
+                                .font(.title2)
+                                .fontWeight(.heavy)
+                                .foregroundColor(.white)
+                                .padding(.vertical)
+                                .frame(width: UIScreen.main.bounds.width - 30)
+                                .background(
+                                    LinearGradient(gradient: .init(colors: [Color.blue, Color.blue]), startPoint: .leading, endPoint: .trailing)
+                                )
+                                .cornerRadius(15)
+                        }
                     }
+                    
                 }
                 .background(Color.white)
             }
