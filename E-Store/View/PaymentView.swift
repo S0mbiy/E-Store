@@ -21,10 +21,13 @@ struct PaymentView: View {
                             .font(.system(size: 25, weight: .heavy))
                             .foregroundColor(.black)
                     }
+                    Spacer()
                     Text("Payment")
                         .font(.title)
                         .fontWeight(.heavy)
                         .foregroundColor(.black)
+                    Spacer()
+                    Spacer()
                     
                 }
                 Form{
@@ -41,7 +44,7 @@ struct PaymentView: View {
                         TextField("Month", text: $vm.expirationMonth)
                             .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
                             .keyboardType(.decimalPad)
-                        TextField("YEar", text: $vm.expirationYear)
+                        TextField("Year", text: $vm.expirationYear)
                             .autocapitalization(/*@START_MENU_TOKEN@*/.none/*@END_MENU_TOKEN@*/)
                             .keyboardType(.decimalPad)
                     }
@@ -68,6 +71,9 @@ struct PaymentView: View {
                 }
             }
             .padding()
+            .alert(isPresented: $vm.alert) {
+                        Alert(title: Text("Payment"), message: Text("Your payment was processed successful!"), dismissButton: .default(Text("OK")))
+                    }
         
 
     }

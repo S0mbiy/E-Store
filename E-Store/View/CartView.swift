@@ -21,12 +21,13 @@ struct CartView: View {
                         .font(.system(size: 25, weight: .heavy))
                         .foregroundColor(.black)
                 }
-                
+                Spacer()
                 Text("Your cart")
                     .font(.title)
                     .fontWeight(.heavy)
                     .foregroundColor(.black)
-                
+                Spacer()
+                Spacer()
             }
             .padding()
             

@@ -31,6 +31,8 @@ class PaymentViewModel: ObservableObject{
     @Published var expirationYear = ""
     @Published var errorDate: String = ""
     
+    @Published var alert: Bool = false
+    
     let shipmentFee: Int = 89
     let firebaseAuth = Auth.auth()
     
@@ -45,14 +47,14 @@ class PaymentViewModel: ObservableObject{
     
     func validateData() -> Bool{
         var isValid = true
-        if cardNumber.count < 16 {
+        if cardNumber.count < 13 || cardNumber.count > 18 {
             errorCardNumber = "There are numbers missing"
             isValid = false
         }
         else {
             errorCardNumber = ""
         }
-        if cvv.count < 3 {
+        if cvv.count != 3 {
             errorCvv = "There are numbers missing"
             isValid = false}
         else{
@@ -65,14 +67,14 @@ class PaymentViewModel: ObservableObject{
         }else{
             errorName = ""
         }
-        if expirationMonth.count < 1 {
+        if expirationMonth.count != 2 || Int(expirationMonth)! < 1 || Int(expirationMonth)! > 12 {
             errorDate = "Date not valid"
             isValid = false
             
         }else{
             errorDate = ""
         }
-        if expirationYear.count < 3 {
+        if expirationYear.count != 2 || Int(expirationYear)! < 20 || Int(expirationYear)! > 99{
             errorDate = "Date not valid"
             isValid = false
             
@@ -96,6 +98,7 @@ class PaymentViewModel: ObservableObject{
                             "orders": cart,
                             "cart" : []
                         ])
+                        self.alert = true
                     }
                 }
                     
