@@ -82,7 +82,7 @@ class CatalogViewModel: ObservableObject { // (1)
                         
                             let parseProduct = Product(id: product["id"] as? String,name: product["name"] as! String, price: product["price"] as! Float, description: product["description"] as! String, image: product["image"] as! String, rating: product["rating"] as! Float)
                             
-                            self.cartItems.append(CartItem(item: parseProduct, quantity: parseItem["quantity"] as! Int))
+                            self.cartItems.append(CartItem(id: parseItem["id"] as? String,item: parseProduct, quantity: parseItem["quantity"] as! Int))
                         }
                     }
                     
@@ -90,7 +90,6 @@ class CatalogViewModel: ObservableObject { // (1)
                 
             }
         }
-        
     }
 
     func next(){
@@ -226,6 +225,7 @@ class CatalogViewModel: ObservableObject { // (1)
                 details.append([
                     "id": cart.id ?? "",
                     "item": [
+                        "id": cart.item.id ?? "",
                         "name": cart.item.name,
                         "price": cart.item.price,
                         "description": cart.item.description,
@@ -245,6 +245,9 @@ class CatalogViewModel: ObservableObject { // (1)
                 print("Success!! Order was uploaded")
             }
         }
+    }
+    func clearCart(){
+        self.cartItems = []
     }
 }
 
