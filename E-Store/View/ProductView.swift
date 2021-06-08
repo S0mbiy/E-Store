@@ -12,9 +12,20 @@ struct ProductView: View {
     var catalog: CatalogViewModel
     var showProduct: Binding<Bool>
     @ObservedObject var reviewViewModel: ReviewViewModel
+    @Environment(\.presentationMode) var present
     @State var title: String = ""
     @State var review: String = ""
     var body: some View {
+        VStack{
+            HStack(spacing: 20){
+                Button(action: {present.wrappedValue.dismiss()}){
+                    Image(systemName: "chevron.left")
+                        .font(.system(size: 25, weight: .heavy))
+                        .foregroundColor(.black)
+                }
+                Spacer()
+            }.padding()
+        }
         ScrollView() {
             VStack {
                 AsyncImage(
