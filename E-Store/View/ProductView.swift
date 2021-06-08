@@ -16,40 +16,40 @@ struct ProductView: View {
     @State var review: String = ""
     var body: some View {
         ScrollView() {
-                    VStack {
-                        AsyncImage(
-                            url: URL(string: product.image)!,
-                            placeholder: {Text("Loading ...")}
-                        )
-                        .aspectRatio(contentMode: .fit)
-                        .frame(width: 250, height: 250)
-                        Text("\(String(product.name))").font(
-                            .system(size: 18, weight: .bold)).padding(.bottom, 2)
-                        Text(String(repeating: "⭐", count: Int(product.rating))).font(
-                            .system(size: 18, weight: .bold)).padding(.bottom, 2)
-                        Text("$\(String(product.price)) USD")
-                            .font(.system(size: 24)).padding(.bottom, 5)
-                        Text("\(String(product.description))")
-                            .font(.system(size: 18, weight: .light)).padding(.bottom, 5)
-                        Text("Envio en 24 horas").font(
-                            .system(size: 12, weight: .bold)).padding(.bottom, 5)
-                    }
-                    VStack {
-                        Button(action: {
-                            print("added")
-                            catalog.addToCart(product: product)
-                            showProduct.wrappedValue = false
-                        }, label: {
-                            Text("Comprar")
-                                .font(
-                                .system(size: 18, weight: .bold))
-                                .background(Color(red: 0.83, green: 0.18, blue: 0.18))
-                                            .foregroundColor(Color.white)
-                        })
-                        .padding(.vertical, 18.0).padding(.horizontal, 54)
+            VStack {
+                AsyncImage(
+                    url: URL(string: product.image)!,
+                    placeholder: {Text("Loading ...")}
+                )
+                .aspectRatio(contentMode: .fit)
+                .frame(width: 250, height: 250)
+                Text("\(String(product.name))").font(
+                    .system(size: 18, weight: .bold)).padding(.bottom, 2)
+                Text(String(repeating: "⭐", count: Int(product.rating))).font(
+                    .system(size: 18, weight: .bold)).padding(.bottom, 2)
+                Text("$\(String(product.price)) USD")
+                    .font(.system(size: 24)).padding(.bottom, 5)
+                Text("\(String(product.description))")
+                    .font(.system(size: 18, weight: .light)).padding(.bottom, 5)
+                Text("Envio en 24 horas").font(
+                    .system(size: 12, weight: .bold)).padding(.bottom, 5)
+            }
+            VStack {
+                Button(action: {
+                    print("added")
+                    catalog.addToCart(product: product)
+                    showProduct.wrappedValue = false
+                }, label: {
+                    Text("Comprar")
+                        .font(
+                            .system(size: 18, weight: .bold))
                         .background(Color(red: 0.83, green: 0.18, blue: 0.18))
-                        .clipShape(Capsule())
-                    }.padding(.bottom, 16)
+                        .foregroundColor(Color.white)
+                })
+                .padding(.vertical, 18.0).padding(.horizontal, 54)
+                .background(Color(red: 0.83, green: 0.18, blue: 0.18))
+                .clipShape(Capsule())
+            }.padding(.bottom, 16)
             VStack(alignment: .leading) {
                 HStack() {
                     Text("Reviews").font(
@@ -85,11 +85,11 @@ struct ProductView: View {
                             Text("Review")
                             TextEditor(text: $review)
                                 
-                                            .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 200)
+                                .frame(minWidth: 0, maxWidth: .infinity, minHeight: 0, maxHeight: 200)
                                 .overlay(
-                                            RoundedRectangle(cornerRadius: 4)
-                                                .stroke(Color(red: 0.90, green: 0.90, blue: 0.90), lineWidth: 1)
-                                        )
+                                    RoundedRectangle(cornerRadius: 4)
+                                        .stroke(Color(red: 0.90, green: 0.90, blue: 0.90), lineWidth: 1)
+                                )
                         }
                         Button(
                             action: {
@@ -100,7 +100,7 @@ struct ProductView: View {
                                 Text("Enviar review").font(
                                     .system(size: 18, weight: .bold))
                                     .background(Color(red: 0.83, green: 0.18, blue: 0.18))
-                                                .foregroundColor(Color.white)
+                                    .foregroundColor(Color.white)
                             }
                         ).padding().foregroundColor(.white).background(Color(red: 0.83, green: 0.18, blue: 0.18))
                         .clipShape(Capsule())
@@ -108,10 +108,10 @@ struct ProductView: View {
                     Spacer()
                 }
                 
-            
+                
             }.padding(.all, 10)
             
-                }
+        }
         
     }
 }
