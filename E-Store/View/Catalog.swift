@@ -11,6 +11,7 @@ struct Catalog: View {
     @State private var searchText = ""
     @State private var selectedProduct: Product = Product(id: "" ,name: "", price: 0.0, description: "", image: "", rating: 0.0)
     @ObservedObject var catalog: CatalogViewModel = CatalogViewModel()
+    @ObservedObject var reviewViewModel = ReviewViewModel()
     @State var showAuth = false
     @State var showProduct = false
     @State var selection: Int? = nil
@@ -26,7 +27,7 @@ struct Catalog: View {
             }.hidden()
             
             
-            NavigationLink(destination: ProductView(product: self.selectedProduct, catalog: self.catalog,  showProduct: $showProduct), isActive: $showProduct) {
+            NavigationLink(destination: ProductView(product: self.selectedProduct, catalog: self.catalog,  showProduct: $showProduct, reviewViewModel: self.reviewViewModel), isActive: $showProduct) {
                                     EmptyView()
                 
                 }.hidden()
@@ -112,7 +113,9 @@ struct Catalog: View {
                         }.padding(.horizontal).contentShape(Rectangle())
                         .onTapGesture {
                             print("tapped")
+                            
                             self.selectedProduct = item
+                            self.reviewViewModel.loadReviews(idProduct: item.id ?? "")
                             DispatchQueue.main.asyncAfter(deadline: .now()) {
                                 self.showProduct = true
                             }
